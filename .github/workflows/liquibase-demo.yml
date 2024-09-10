@@ -1,10 +1,10 @@
 name: Liquibase with GitHub Actions Demo
 on: [push]
-inputs:
-  logLevel:
-    description: 'Log level'     
-    required: false
-    default: 'severe'
+  inputs:
+    logLevel:
+      description: 'Log level'     
+      required: false
+      default: 'severe'
 jobs:
   liquibase-status:
     name: Liquibase Status
