@@ -1,5 +1,10 @@
 name: Liquibase with GitHub Actions Demo
 on: [push]
+inputs:
+  logLevel:
+    description: 'Log level'     
+    required: false
+    default: 'severe'
 jobs:
   liquibase-status:
     name: Liquibase Status
@@ -9,7 +14,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: liquibase-github-actions/init-start-h2@v4.29.2
         with:
-          detached: true
           headless: true
           logLevel: INFO
       - uses: liquibase-github-actions/status@v4.29.2
@@ -18,5 +22,3 @@ jobs:
           url: "jdbc:h2:tcp://localhost:9090/mem:dev"
           headless: true
           logLevel: INFO
-          showSummary: "summary"  
-          showSummaryOutput: "console"
