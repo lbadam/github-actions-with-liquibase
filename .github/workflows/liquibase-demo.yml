@@ -5,15 +5,28 @@ jobs:
     name: Liquibase Status
     runs-on: ubuntu-latest
     environment: production
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: students
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - uses: actions/checkout@v4
-      - uses: liquibase-github-actions/init-start-h2@v4.29.2
-        with:
-          headless: true
-          logLevel: INFO
       - uses: liquibase-github-actions/status@v4.29.2
         with:
           changelogFile: "liquibase/example-changelog.sql"
-          url: "jdbc:h2:tcp://localhost:9090/mem:dev"
+          defaultsFile: "liquibase/liquibase.properties"
+          url: "jdbc:postgresql://localhost:5432/students"
           headless: true
           logLevel: INFO
