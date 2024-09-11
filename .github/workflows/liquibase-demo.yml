@@ -30,7 +30,7 @@ jobs:
       - name: Run Liquibase Status
         uses: liquibase-github-actions/status@v4.29.2
         with:
-          changelogFile: "./liquibase/example-changelog.sql"
+          changelogFile: "liquibase/changelog.sql"
           url: "jdbc:postgresql://postgres:5432/liquibase_db"
           username: liquibase_user
           password: liquibase_password
