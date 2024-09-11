@@ -12,8 +12,8 @@ jobs:
           DB_PASSWORD: ${{ secrets.DB_PASSWORD_PROD }}
           DB_USERNAME: ${{ secrets.DB_USERNAME_PROD }}
         with:
-          changelogFile: "liquibase/example-changelog.sql"
-          classPath: "liquibase/lib/liquibase-azure-deps-4.29.2.jar"
-          url: jdbc:sqlserver://lb-demo.database.windows.net:1433;database=students;user=$DB_USERNAME;password=$DB_PASSWORD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;authentication=ActiveDirectoryPassword
+          changelogFile: "./liquibase/example-changelog.sql"
+          classPath: "./liquibase/lib/liquibase-azure-deps-4.29.2.jar"
+          url: jdbc:sqlserver://lb-demo.database.windows.net:1433;database=students;user=$DB_USERNAME;password=$DB_PASSWORD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;authentication=SqlPassword
           headless: true
           logLevel: INFO
