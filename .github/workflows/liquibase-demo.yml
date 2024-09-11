@@ -13,7 +13,7 @@ jobs:
           DB_USERNAME: ${{ secrets.DB_USERNAME_PROD }}
         with:
           changelogFile: "liquibase/example-changelog.sql"
-          defaultsFile: "liquibase/liquibase.properties"
+          searchPath: "liquibase"
           url: jdbc:sqlserver://lb-demo.database.windows.net:1433;database=students;user=$DB_USERNAME;password=$DB_PASSWORD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;authentication=ActiveDirectoryPassword
           headless: true
           logLevel: INFO
