@@ -9,10 +9,12 @@ jobs:
       # Label used to access the service container
       postgres:
         # Docker Hub image
-        image: postgres
+        image: postgres:14
         # Provide the password for postgres
         env:
-          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: liquibase_user
+          POSTGRES_PASSWORD: liquibase_password
+          POSTGRES_DB: liquibase_db
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -24,14 +26,17 @@ jobs:
           - 5432:5432
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
       - name: Run Liquibase Status
         uses: liquibase-github-actions/status@v4.29.2
+        env: 
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
         with:
           changelogFile: "liquibase/example-changelog.sql"
           url: "jdbc:postgresql://localhost:5432/liquibase_db"
-          username: ${{ secrets.DB_USERNAME_PROD }}
-          password: ${{ secrets.DB_PASSWORD_PROD }}
+          username: liquibase_user
+          password: liquibase_password
           licenseKey: ${{ secrets.LB_PRO_LICENSE_KEY }}
           headless: true
           logLevel: INFO
