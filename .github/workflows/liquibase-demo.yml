@@ -1,19 +1,39 @@
 name: Liquibase with GitHub Actions Demo
 on: [push]
 jobs:
-  liquibase-status:
-    name: Liquibase Status
+  liquibase-update:
+    name: Liquibase Update
     runs-on: ubuntu-latest
-    environment: production
+
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     steps:
       - uses: actions/checkout@v4
       - uses: liquibase-github-actions/status@v4.29.2
         env:
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD_PROD }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME_PROD }}
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: localhost
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
         with:
           changelogFile: "./liquibase/example-changelog.sql"
-          classPath: "./liquibase/lib/liquibase-azure-deps-4.29.2.jar"
-          url: jdbc:sqlserver://lb-demo.database.windows.net:1433;database=students;user=$DB_USERNAME;password=$DB_PASSWORD;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;authentication=SqlPassword
+          url: jdbc:postgres://localhost:5432/
+          username: ${{ secrets.DB_USERNAME_PROD }}
+          password: ${{ secrets.DB_PASSWORD_PROD }}
           headless: true
           logLevel: INFO
