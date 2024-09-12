@@ -5,13 +5,8 @@ jobs:
     name: Liquibase Actions
     runs-on: ubuntu-latest
     env: 
-      LB_TAG: ${{ github.run_number }}
-      LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelog.sql
-      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
-      LIQUIBASE_DEV_DB: ${{ secrets.LIQUIBASE_DEV_DB }}
-      LIQUIBASE_COMMAND_USERNAME: ${{ secrets.LIQUIBASE_DEV_USER }}
-      LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
-      LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_KEY }}
+        LB_TAG: ${{ github.run_number }}
+        LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelog.sql
     services:
       # Label used to access the service container
       postgres:
@@ -33,38 +28,35 @@ jobs:
           - 5432:5432
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Run Liquibase Status
         id: liquibase-status
         uses: liquibase-github-actions/status@v4.29.2
         with:
-          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
-          url: $LIQUIBASE_COMMAND_URL
-          username: $LIQUIBASE_COMMAND_USERNAME
-          password: $LIQUIBASE_COMMAND_PASSWORD
-          licenseKey: $LIQUIBASE_LICENSE_KEY
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
           headless: true
           logLevel: INFO
       - name: Run Liquibase update-sql
         id: liquibase-updatesql
         uses: liquibase-github-actions/update-sql@v4.29.2
         with:
-          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
-          url: $LIQUIBASE_COMMAND_URL
-          username: $LIQUIBASE_COMMAND_USERNAME
-          password: $LIQUIBASE_COMMAND_PASSWORD
-          licenseKey: $LIQUIBASE_LICENSE_KEY
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }} 
           headless: true
           logLevel: INFO
       - name: Run Liquibase update
         id: liquibase-update
         uses: liquibase-github-actions/update@v4.29.2
         with:
-          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
-          url: $LIQUIBASE_COMMAND_URL
-          username: $LIQUIBASE_COMMAND_USERNAME
-          password: $LIQUIBASE_COMMAND_PASSWORD
-          licenseKey: $LIQUIBASE_LICENSE_KEY
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}      
           headless: true
           logLevel: INFO
       - name: Run Liquibase Tag
@@ -72,10 +64,9 @@ jobs:
         uses: liquibase-github-actions/update@v4.29.2
         with:
           tag: $LB_TAG
-          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
-          url: $LIQUIBASE_COMMAND_URL
-          username: $LIQUIBASE_COMMAND_USERNAME
-          password: $LIQUIBASE_COMMAND_PASSWORD
-          licenseKey: $LIQUIBASE_LICENSE_KEY
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}    
           headless: true
           logLevel: INFO
