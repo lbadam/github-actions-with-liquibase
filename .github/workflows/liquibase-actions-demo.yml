@@ -1,5 +1,6 @@
 name: Liquibase with GitHub Actions Demo
-on: [push]
+on: 
+  workflow_dispatch
 jobs:
   liquibase-actions:
     name: Liquibase Actions
