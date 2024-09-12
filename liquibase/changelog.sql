@@ -3,7 +3,7 @@
 --changeset your.name:1 labels:person context:production
 --comment: add person table
 create table person (
-    id int primary key auto_increment not null,
+    id serial not null primary key,
     name varchar(50) not null,
     address1 varchar(50),
     address2 varchar(50),
@@ -14,7 +14,7 @@ create table person (
 --changeset your.name:2 labels:school context:production
 --comment: add school table
 create table school (
-    id int primary key auto_increment not null,
+    id serial not null primary key,
     name varchar(50) not null,
     address1 varchar(50),
     address2 varchar(50),

@@ -1,0 +1,81 @@
+name: Liquibase with GitHub Actions Demo
+on: [push]
+jobs:
+  liquibase-actions:
+    name: Liquibase Actions
+    runs-on: ubuntu-latest
+    env: 
+      LB_TAG: ${{ github.run_number }}
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelog.sql
+      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
+      LIQUIBASE_DEV_DB: ${{ secrets.LIQUIBASE_DEV_DB }}
+      LIQUIBASE_COMMAND_USERNAME: ${{ secrets.LIQUIBASE_DEV_USER }}
+      LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
+      LIQUIBASE_LICENSE_KEY: ${{ secrets.LIQUIBASE_KEY }}
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres:14
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: ${{ secrets.LIQUIBASE_DEV_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.LIQUIBASE_DEV_DB }}
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Run Liquibase Status
+        id: liquibase-status
+        uses: liquibase-github-actions/status@v4.29.2
+        with:
+          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
+          url: $LIQUIBASE_COMMAND_URL
+          username: $LIQUIBASE_COMMAND_USERNAME
+          password: $LIQUIBASE_COMMAND_PASSWORD
+          licenseKey: $LIQUIBASE_LICENSE_KEY
+          headless: true
+          logLevel: INFO
+      - name: Run Liquibase update-sql
+        id: liquibase-updatesql
+        uses: liquibase-github-actions/update-sql@v4.29.2
+        with:
+          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
+          url: $LIQUIBASE_COMMAND_URL
+          username: $LIQUIBASE_COMMAND_USERNAME
+          password: $LIQUIBASE_COMMAND_PASSWORD
+          licenseKey: $LIQUIBASE_LICENSE_KEY
+          headless: true
+          logLevel: INFO
+      - name: Run Liquibase update
+        id: liquibase-update
+        uses: liquibase-github-actions/update@v4.29.2
+        with:
+          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
+          url: $LIQUIBASE_COMMAND_URL
+          username: $LIQUIBASE_COMMAND_USERNAME
+          password: $LIQUIBASE_COMMAND_PASSWORD
+          licenseKey: $LIQUIBASE_LICENSE_KEY
+          headless: true
+          logLevel: INFO
+      - name: Run Liquibase Tag
+        id: liquibase-tag
+        uses: liquibase-github-actions/update@v4.29.2
+        with:
+          tag: $LB_TAG
+          changelogFile: $LIQUIBASE_COMMAND_CHANGELOG_FILE
+          url: $LIQUIBASE_COMMAND_URL
+          username: $LIQUIBASE_COMMAND_USERNAME
+          password: $LIQUIBASE_COMMAND_PASSWORD
+          licenseKey: $LIQUIBASE_LICENSE_KEY
+          headless: true
+          logLevel: INFO
