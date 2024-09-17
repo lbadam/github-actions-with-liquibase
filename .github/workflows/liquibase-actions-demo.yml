@@ -62,7 +62,7 @@ jobs:
           logLevel: INFO
       - name: Run Liquibase Tag
         id: liquibase-tag
-        uses: liquibase-github-actions/update@v4.29.2
+        uses: liquibase-github-actions/tag@v4.29.2
         with:
           tag: $LB_TAG
           changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
