@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
         LB_TAG: ${{ github.run_number }}
-        LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelog-checks.sql
+        LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelogs/changelog-checks.sql
     services:
       # Label used to access the service container
       postgres:
