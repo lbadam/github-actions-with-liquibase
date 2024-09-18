@@ -8,13 +8,13 @@ globalVariables:
   ###
   ### These variables are typically set via automation tools (see pipeline examples)
   ###
-  ### LIQUIBASE_SEARCH_PATH: REQUIRED
+  LIQUIBASE_SEARCH_PATH: REQUIRED
   ### Use absolute paths when using Liquibase's Docker container
-  ### LIQUIBASE_SEARCH_PATH: "/liquibase/changelog"
+  LIQUIBASE_SEARCH_PATH: "/liquibase/changelogs"
   ###
-  ### LIQUIBASE_COMMAND_CHANGELOG_FILE: REQUIRED
+  LIQUIBASE_COMMAND_CHANGELOG_FILE: REQUIRED
   ### Root Liquibase changelog file
-  ### LIQUIBASE_COMMAND_CHANGELOG_FILE: "changelog.main.xml"
+  LIQUIBASE_COMMAND_CHANGELOG_FILE: "changelog.sql"
   ###
   ### LIQUIBASE_COMMAND_TAG: REQUIRED
   ### Should be a unique identifier and change each run (e.g., job/build number)
@@ -26,15 +26,15 @@ globalVariables:
   ###
   ### LB_ENVIRONMENT: REQUIRED
   ### LB_ENVIRONMENT should be the environment within the pipeline to operate on (e.g., DEV, UAT, PROD)
-  ### LB_ENVIRONMENT: "DEV"
+  LB_ENVIRONMENT: "DEV"
   ###
   ### Secrets: REQUIRED
   ### These values should be pulled from a secure vault via pipeline or Liquibase Pro extension
   ### https://docs.liquibase.com/tools-integrations/extensions/secrets-management/home.html
   ###
-  ### LIQUIBASE_COMMAND_URL: "jdbc:h2:tcp://localhost:9090/mem:dev"
-  ### LIQUIBASE_COMMAND_USERNAME: "dbuser"
-  ### LIQUIBASE_COMMAND_PASSWORD: "letmein"
+  LIQUIBASE_COMMAND_URL: "jdbc:h2:tcp://localhost:9090/mem:dev"
+  LIQUIBASE_COMMAND_USERNAME: "dbuser"
+  LIQUIBASE_COMMAND_PASSWORD: "letmein"
   ### LIQUIBASE_LICENSE_KEY: "12345"
   ###
   ### Structured logging
