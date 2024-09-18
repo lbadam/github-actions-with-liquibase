@@ -8,11 +8,11 @@ globalVariables:
   ###
   ### These variables are typically set via automation tools (see pipeline examples)
   ###
-  LIQUIBASE_SEARCH_PATH: REQUIRED
+  #LIQUIBASE_SEARCH_PATH: REQUIRED
   ### Use absolute paths when using Liquibase's Docker container
   LIQUIBASE_SEARCH_PATH: "/liquibase/changelogs"
   ###
-  LIQUIBASE_COMMAND_CHANGELOG_FILE: REQUIRED
+  #LIQUIBASE_COMMAND_CHANGELOG_FILE: REQUIRED
   ### Root Liquibase changelog file
   LIQUIBASE_COMMAND_CHANGELOG_FILE: "changelog.sql"
   ###
