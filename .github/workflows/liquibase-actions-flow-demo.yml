@@ -15,6 +15,11 @@ jobs:
         uses: liquibase-github-actions/flow@v4.29.2
         with:
           flowFile: "liquibase/liquibase.flowfile.yaml"
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
           licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
           headless: true
           logLevel: INFO
+          labelFilter: "person"
