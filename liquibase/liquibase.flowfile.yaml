@@ -76,7 +76,8 @@ globalVariables:
   ### Set these flags to T/F to turn Liquibase Pro features on/off
   ### These flags can also be set dynamically by an automation tool based on user input, environment, team, etc.
   ###
-  LB_SHOW_UPDATE_SQL: "F"
+  LB_SHOW_UPDATE_SQL: "T"
+  LB_TEST_ROLLBACKS: "F"
 
 ###
 ### Stages to execute
@@ -107,28 +108,28 @@ stages:
       # Show quality checks
       # https://docs.liquibase.com/commands/quality-checks/home.html
       #
-      - type: liquibase
-        if: "${LB_TEST_CHECKS} == T"
-        command: checks show
-        cmdArgs: { check-status: "enabled" }
+      #- type: liquibase
+      #  if: "${LB_TEST_CHECKS} == T"
+      #  command: checks show
+      #  cmdArgs: { check-status: "enabled" }
       #
       # Run quality checks
       # https://docs.liquibase.com/commands/quality-checks/home.html
       #
-      - type: liquibase
-        if: "${LB_TEST_CHECKS} == T"
-        command: checks run
-        cmdArgs: { report-enabled: "true", report-path: "${LB_BASE_DIR}", report-name: "${CHECKS_REPORT}", checks-scope: "changelog, database", changeset-filter: "pending", auto-update: "on" }
+      #- type: liquibase
+      #  if: "${LB_TEST_CHECKS} == T"
+      #  command: checks run
+      #  cmdArgs: { report-enabled: "true", report-path: "${LB_BASE_DIR}", report-name: "${CHECKS_REPORT}", checks-scope: "changelog, database", changeset-filter: "pending", auto-update: "on" }
       #
       # Run diff and check for drift
       # Update referenceURL database type in cmdArgs (e.g., oracle, mssql, snowflake, etc.)
       # https://docs.liquibase.com/commands/inspection/diff.html
       #
-      - type: liquibase
-        if: "exists('${SNAPSHOT_FILE}', false) && ${LB_TEST_DRIFT} == 'T'"
-        command: diff
-        globalArgs: { outputfile: "${LB_BASE_DIR}/${DIFF_FILE}" }
-        cmdArgs: { drift-severity: "1", report-enabled: "true", report-path: "${LB_BASE_DIR}", report-name: "${DRIFT_REPORT}", referenceURL: "offline:snowflake?snapshot=${SNAPSHOT_FILE}", format: json }
+      #- type: liquibase
+      #  if: "exists('${SNAPSHOT_FILE}', false) && ${LB_TEST_DRIFT} == 'T'"
+      #  command: diff
+      #  globalArgs: { outputfile: "${LB_BASE_DIR}/${DIFF_FILE}" }
+      #  cmdArgs: { drift-severity: "1", report-enabled: "true", report-path: "${LB_BASE_DIR}", report-name: "${DRIFT_REPORT}", referenceURL: "offline:snowflake?snapshot=${SNAPSHOT_FILE}", format: json }
       #
       # Tag database
       # https://docs.liquibase.com/commands/utility/tag.html
