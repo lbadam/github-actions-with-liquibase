@@ -1,0 +1,20 @@
+name: Liquibase Checks with GitHub Actions Demo
+on: 
+  workflow_dispatch
+jobs:
+  liquibase-actions:
+    name: Liquibase Actions
+    runs-on: ubuntu-latest
+    env: 
+        LB_TAG: ${{ github.run_number }}
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Run Liquibase Flow File
+        id: liquibase-status
+        uses: liquibase-github-actions/flow@v4.29.2
+        with:
+          flowFile: "liquibase/liquibase.flowfile.yaml"
+          licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
+          headless: true
+          logLevel: INFO
