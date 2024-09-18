@@ -6,7 +6,7 @@ jobs:
     name: Liquibase Actions
     runs-on: ubuntu-latest
     env: 
-        LB_TAG: ${{ github.run_number }}
+        LIQUIBASE_COMMAND_TAG: ${{ github.run_number }}
         LB_SNAPSHOTS_DIR: "liquibase/snapshots"
         LB_ENVIRONMENT: "DEV"
     steps:
