@@ -7,6 +7,8 @@ jobs:
     runs-on: ubuntu-latest
     env: 
         LB_TAG: ${{ github.run_number }}
+        LB_SNAPSHOTS_DIR: "liquibase/snapshots"
+        LB_ENVIRONMENT: "DEV"
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -14,12 +16,7 @@ jobs:
         id: liquibase-status
         uses: liquibase-github-actions/flow@v4.29.2
         with:
-          flowFile: "liquibase/liquibase.flowfile.yaml"
-          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
-          url: ${{ secrets.LIQUIBASE_DEV_URL }}
-          username: ${{ secrets.LIQUIBASE_DEV_USER }}
-          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
+          flowFile: "liquibase/liquibase-actions-flow-demo.yml"
           licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
           headless: true
           logLevel: INFO
-          labelFilter: "person"
