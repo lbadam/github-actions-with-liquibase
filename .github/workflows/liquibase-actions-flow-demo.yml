@@ -8,6 +8,7 @@ jobs:
     env: 
         LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelog.sql
         LIQUIBASE_COMMAND_TAG: ${{ github.run_number }}
+        LIQUIBASE_COMMAND_URL: ""jdbc:h2:mem:liquibase_dev""
         LB_SNAPSHOTS_DIR: "liquibase/snapshots"
         LB_ENVIRONMENT: "DEV"
     steps:
@@ -17,8 +18,6 @@ jobs:
         id: liquibase-status
         uses: liquibase-github-actions/flow@v4.29.2
         with:
-          url: "jdbc:h2:mem:liquibase_dev"
-          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           flowFile: "liquibase/liquibase.flowfile.yaml"
           licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
           headless: true

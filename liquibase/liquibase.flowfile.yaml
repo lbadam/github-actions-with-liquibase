@@ -36,7 +36,7 @@ stages:
       - type: liquibase
         command: diff
         globalArgs: { outputfile: "${DiffFile}" }
-        cmdArgs: { referenceURL: "offline:mssql?snapshot=${SnapshotFile}", format: json }
+        cmdArgs: { format: json }
       #
       # Check for drift
       #
