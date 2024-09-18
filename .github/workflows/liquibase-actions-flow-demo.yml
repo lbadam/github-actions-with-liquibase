@@ -1,4 +1,4 @@
-name: Liquibase Checks with GitHub Actions Demo
+name: Liquibase Flow with GitHub Actions Demo
 on: 
   workflow_dispatch
 jobs:
