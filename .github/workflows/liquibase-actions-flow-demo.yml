@@ -8,18 +8,18 @@ on:
 
 env:
     LB_SNAPSHOTS_DIR: Snapshots
-    LIQUIBASE_COMMAND_USERNAME: ${{ secrets.LIQUIBASE_COMMAND_USERNAME }}
-    LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.LIQUIBASE_COMMAND_PASSWORD }}
-    LIQUIBASE_COMMAND_CHANGELOG_FILE: ${{ secrets.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+    LIQUIBASE_COMMAND_USERNAME: ${{ secrets.LIQUIBASE_DEV_USER }}
+    LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
+    LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelogs/changelog.sql
     LIQUIBASE_LOG_FORMAT: JSON_PRETTY
     LIQUIBASE_COMMAND_TAG: ${{ github.event.inputs.tag }}
     LIQUIBASE_HUB_MODE: off
 jobs:
   Development:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       LB_ENVIRONMENT: DEV
-      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_COMMAND_URL }}
+      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
     steps:
     - name: Checking out repository
       uses: actions/checkout@v3
@@ -41,10 +41,10 @@ jobs:
 
   Production:
     needs: Development
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       LB_ENVIRONMENT: PROD
-      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_COMMAND_URL_PROD }}
+      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
     steps:
     - name: Checking out repository
       uses: actions/checkout@v3
