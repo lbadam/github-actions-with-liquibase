@@ -62,17 +62,17 @@ stages:
       #
       # Validate rollback
       #
-      - type: liquibase
-        if: "${LB_ENVIRONMENT} == DEV"
-        command: rollbackSQL
-        cmdArgs: { tag: "${LIQUIBASE_COMMAND_TAG}" }
+      #- type: liquibase
+      #  if: "${LB_ENVIRONMENT} == DEV"
+      #  command: rollbackSQL
+      #  cmdArgs: { tag: "${LIQUIBASE_COMMAND_TAG}" }
       #
       # Execute rollback
       #
-      - type: liquibase
-        if: "${LB_ENVIRONMENT} == DEV"
-        command: rollback
-        cmdArgs: { tag: "${LIQUIBASE_COMMAND_TAG}" }
+      #- type: liquibase
+      #  if: "${LB_ENVIRONMENT} == DEV"
+      #  command: rollback
+      #  cmdArgs: { tag: "${LIQUIBASE_COMMAND_TAG}" }
       #
       # Update the database
       #
