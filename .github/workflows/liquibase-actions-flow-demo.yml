@@ -32,13 +32,6 @@ jobs:
         headless: true
         logLevel: INFO
 
-    - name: Updating repository
-      run: |
-        git pull
-        git add .
-        git commit -am "Update snapshots."
-        git push
-
   Production:
     needs: Development
     runs-on: ubuntu-latest
@@ -57,9 +50,10 @@ jobs:
         headless: true
         logLevel: INFO
 
-    - name: Updating repository
-      run: |
-        git pull
-        git add .
-        git commit -am "Update snapshots."
-        git push
+    - name: Create Pull Request for updated files
+      uses: peter-evans/create-pull-request@v7
+      with:
+        commit-message: |
+          update liquibase dev files
+        title: Update Liquibase Files
+        token: ${{ secrets.GITHUB_TOKEN }}
