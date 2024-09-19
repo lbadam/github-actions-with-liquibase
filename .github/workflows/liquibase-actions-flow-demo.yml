@@ -22,7 +22,7 @@ jobs:
       LIQUIBASE_COMMAND_REFERENCE_URL: "jdbc:h2:mem:liquibase_prod"
     steps:
     - name: Checking out repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Running Liquibase Flow
       uses: liquibase-github-actions/flow@v4.29.2
@@ -38,9 +38,10 @@ jobs:
     env:
       LB_ENVIRONMENT: PROD
       LIQUIBASE_COMMAND_URL: "jdbc:h2:mem:liquibase_prod"
+      LIQUIBASE_COMMAND_REFERENCE_URL: "jdbc:h2:mem:liquibase_prod"
     steps:
     - name: Checking out repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Running Liquibase Flow
       uses: liquibase-github-actions/flow@v4.29.2
