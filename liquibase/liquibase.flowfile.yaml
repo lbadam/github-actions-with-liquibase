@@ -76,9 +76,9 @@ stages:
       #
       # Update the database
       #
-      - type: liquibase
-        if: "${LB_ENVIRONMENT} == DEV"
-        command: update
+      #- type: liquibase
+      #  if: "${LB_ENVIRONMENT} == DEV"
+      #  command: update
       #
       # Create snapshot
       #
