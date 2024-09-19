@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       LB_ENVIRONMENT: DEV
-      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
+      LIQUIBASE_COMMAND_URL: "jdbc:h2:mem:liquibase_dev"
       LIQUIBASE_COMMAND_REFERENCE_URL: "jdbc:h2:mem:liquibase_prod"
     steps:
     - name: Checking out repository
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       LB_ENVIRONMENT: PROD
-      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
+      LIQUIBASE_COMMAND_URL: "jdbc:h2:mem:liquibase_prod"
     steps:
     - name: Checking out repository
       uses: actions/checkout@v3
