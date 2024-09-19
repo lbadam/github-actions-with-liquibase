@@ -29,7 +29,7 @@ stages:
       #
       - type: liquibase
         command: checks run
-        cmdArgs: { checks-scope: "changelog, database", checks-settings-file: "./liquibase/liquibase.checks-settings.yaml" }
+        cmdArgs: { checks-scope: "changelog, database", checks-settings-file: "./liquibase/liquibase.checks-settings.conf" }
       #
       # Run diff
       #
