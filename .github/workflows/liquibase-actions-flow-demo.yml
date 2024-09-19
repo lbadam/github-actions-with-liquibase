@@ -1,25 +1,65 @@
 name: Liquibase Flow with GitHub Actions Demo
 on: 
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Enter tag for rollback'
+        required: true
+
+env:
+    LB_SNAPSHOTS_DIR: Snapshots
+    LIQUIBASE_COMMAND_USERNAME: ${{ secrets.LIQUIBASE_COMMAND_USERNAME }}
+    LIQUIBASE_COMMAND_PASSWORD: ${{ secrets.LIQUIBASE_COMMAND_PASSWORD }}
+    LIQUIBASE_COMMAND_CHANGELOG_FILE: ${{ secrets.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+    LIQUIBASE_LOG_FORMAT: JSON_PRETTY
+    LIQUIBASE_COMMAND_TAG: ${{ github.event.inputs.tag }}
+    LIQUIBASE_HUB_MODE: off
 jobs:
-  liquibase-actions:
-    name: Liquibase Actions
-    runs-on: ubuntu-latest
-    env: 
-        LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelogs/changelog.sql
-        LIQUIBASE_COMMAND_TAG: ${{ github.run_number }}
-        LIQUIBASE_COMMAND_URL: "jdbc:h2:mem:liquibase_dev"
-        LIQUIBASE_COMMAND_REFERENCE_URL: "jdbc:h2:mem:liquibase_staging"
-        LB_SNAPSHOTS_DIR: "liquibase/snapshots"
-        LB_ENVIRONMENT: "DEV"
+  Development:
+    runs-on: self-hosted
+    env:
+      LB_ENVIRONMENT: DEV
+      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_COMMAND_URL }}
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v3
-      - name: Run Liquibase Flow File
-        id: liquibase-status
-        uses: liquibase-github-actions/flow@v4.29.2
-        with:
-          flowFile: "liquibase/liquibase.flowfile.yaml"
-          licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
-          headless: true
-          logLevel: INFO
+    - name: Checking out repository
+      uses: actions/checkout@v3
+
+    - name: Running Liquibase Flow
+      uses: liquibase-github-actions/flow@v4.29.2
+      with:
+        flowFile: "liquibase/liquibase.flowfile.yaml"
+        licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
+        headless: true
+        logLevel: INFO
+
+    - name: Updating repository
+      run: |
+        git pull
+        git add .
+        git commit -am "Update snapshots."
+        git push
+
+  Production:
+    needs: Development
+    runs-on: self-hosted
+    env:
+      LB_ENVIRONMENT: PROD
+      LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_COMMAND_URL_PROD }}
+    steps:
+    - name: Checking out repository
+      uses: actions/checkout@v3
+
+    - name: Running Liquibase Flow
+      uses: liquibase-github-actions/flow@v4.29.2
+      with:
+        flowFile: "liquibase/liquibase.flowfile.yaml"
+        licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
+        headless: true
+        logLevel: INFO
+
+    - name: Updating repository
+      run: |
+        git pull
+        git add .
+        git commit -am "Update snapshots."
+        git push
