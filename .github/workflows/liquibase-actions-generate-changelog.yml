@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       RUN: ${{ github.run_number }}
+      LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelogs/generatedChangelog.sql
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -15,6 +16,6 @@ jobs:
         uses: liquibase-github-actions/generate-changelog@v4.29.2
         with:
           url: "jdbc:h2:mem:liquibase_dev"
-          changelogFile: "./liquibase/changelogs/generatedChangelog_${{ env.RUN }}.sql}"
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           headless: true
           logLevel: INFO
