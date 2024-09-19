@@ -13,13 +13,13 @@ env:
     LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelogs/changelog.sql
     LIQUIBASE_LOG_FORMAT: JSON_PRETTY
     LIQUIBASE_COMMAND_TAG: ${{ github.event.inputs.tag }}
-    LIQUIBASE_HUB_MODE: off
 jobs:
   Development:
     runs-on: ubuntu-latest
     env:
       LB_ENVIRONMENT: DEV
       LIQUIBASE_COMMAND_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
+      LIQUIBASE_REFERENCE_URL: "jdbc:h2:mem:liquibase_prod"
     steps:
     - name: Checking out repository
       uses: actions/checkout@v3
