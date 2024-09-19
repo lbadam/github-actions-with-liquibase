@@ -15,6 +15,6 @@ jobs:
         uses: liquibase-github-actions/generate-changelog@v4.29.2
         with:
           url: "jdbc:h2:mem:liquibase_dev"
-          changelogFile: "./liquibase/changelogs/generatedChangelog_${{ env.RUN }}.xml}"
+          changelogFile: "generatedChangelog_${{ env.RUN }}.xml}"
           headless: true
           logLevel: INFO
