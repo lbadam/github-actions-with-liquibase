@@ -19,3 +19,10 @@ jobs:
           changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           headless: true
           logLevel: INFO
+      - name: Create Pull Request for updated files
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: |
+            add liquibase generated changelog
+          title: Add Liquibase Generated Changelog
+          token: ${{ secrets.GITHUB_TOKEN }}
