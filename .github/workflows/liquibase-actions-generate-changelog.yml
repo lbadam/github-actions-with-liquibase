@@ -26,3 +26,4 @@ jobs:
             add liquibase generated changelog
           title: Add Liquibase Generated Changelog
           token: ${{ secrets.GITHUB_TOKEN }}
+          branch: liquibase_${{ env.RUN }}
