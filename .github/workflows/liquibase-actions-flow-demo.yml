@@ -58,3 +58,4 @@ jobs:
           update liquibase dev files
         title: Update Liquibase Files
         token: ${{ secrets.GITHUB_TOKEN }}
+        branch: liquibase_${{ env.RUN }}
