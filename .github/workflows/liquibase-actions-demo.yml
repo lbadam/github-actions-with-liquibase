@@ -50,6 +50,17 @@ jobs:
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }} 
           headless: true
           logLevel: INFO
+      - name: Run Liquibase Tag
+        id: liquibase-tag
+        uses: liquibase-github-actions/tag@v4.29.2
+        with:
+          tag: ${{ env.LB_TAG }}
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}    
+          headless: true
+          logLevel: INFO
       - name: Run Liquibase update
         id: liquibase-update
         uses: liquibase-github-actions/update@v4.29.2
@@ -60,14 +71,32 @@ jobs:
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}      
           headless: true
           logLevel: INFO
-      - name: Run Liquibase Tag
-        id: liquibase-tag
-        uses: liquibase-github-actions/tag@v4.29.2
+      - name: Rollback
+        id: liquibase-urollback
+        uses: liquibase-github-actions/rollback@v4.29.2
         with:
-          tag: $LB_TAG
+          changelogFile: ""
+          tag: ${{ env.LB_TAG }}
+          url: ""
+          headless: true
+          logLevel: INFO
+      - name: Run Liquibase update
+        id: liquibase-update-after-rollback
+        uses: liquibase-github-actions/update@v4.29.2
+        with:
           changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           url: ${{ secrets.LIQUIBASE_DEV_URL }}
           username: ${{ secrets.LIQUIBASE_DEV_USER }}
-          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}    
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}      
           headless: true
+          logLevel: INFO
+      - name: Run Liquibase update
+        id: liquibase-rollback-one-changeset
+        uses: liquibase-github-actions/rollback-one-changeset@v4.29.2
+        with:
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          changesetAuthor: "other.dev"
+          changesetId: "3"
+          headless: true
+          licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
           logLevel: INFO
