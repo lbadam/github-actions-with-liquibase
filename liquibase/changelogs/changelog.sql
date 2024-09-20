@@ -20,7 +20,7 @@ create table school (
     address2 varchar(50),
     city varchar(30)
 )
---rollback DROP TABLE company;
+--rollback DROP TABLE school;
 
 --changeset other.dev:3 labels:school context:production
 --comment: add state to school table
