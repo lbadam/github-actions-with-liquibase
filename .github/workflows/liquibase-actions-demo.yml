@@ -98,6 +98,7 @@ jobs:
           changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           changesetAuthor: "other.dev"
           changesetId: "3"
+          changesetPath: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           url: ${{ secrets.LIQUIBASE_DEV_URL }}
           username: ${{ secrets.LIQUIBASE_DEV_USER }}
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }} 
