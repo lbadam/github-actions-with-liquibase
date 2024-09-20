@@ -8,7 +8,6 @@ jobs:
     env: 
         LB_TAG: ${{ github.run_number }}
         LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelogs/changelog.sql
-        LIQUIBASE_COMMAND_REFERENCE_URL: ${{ secrets.LIQUIBASE_DEV_URL }}
     services:
       # Label used to access the service container
       postgres:
@@ -35,6 +34,8 @@ jobs:
         id: liquibase-status
         uses: liquibase-github-actions/status@v4.29.2
         with:
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
+          url: ${{ secrets.LIQUIBASE_DEV_URL }}
           username: ${{ secrets.LIQUIBASE_DEV_USER }}
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
           headless: true
