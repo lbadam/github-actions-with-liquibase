@@ -102,6 +102,7 @@ jobs:
           url: ${{ secrets.LIQUIBASE_DEV_URL }}
           username: ${{ secrets.LIQUIBASE_DEV_USER }}
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }} 
+          force: true
           headless: true
           licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
           logLevel: INFO
