@@ -72,12 +72,14 @@ jobs:
           headless: true
           logLevel: INFO
       - name: Run Liquibase Rollback
-        id: liquibase-urollback
+        id: liquibase-rollback
         uses: liquibase-github-actions/rollback@v4.29.2
         with:
-          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           tag: ${{ env.LB_TAG }}
+          changelogFile: ${{ env.LIQUIBASE_COMMAND_CHANGELOG_FILE }}
           url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }} 
           headless: true
           logLevel: INFO
       - name: Run Liquibase update
@@ -98,6 +100,8 @@ jobs:
           changesetAuthor: "other.dev"
           changesetId: "3"
           url: ${{ secrets.LIQUIBASE_DEV_URL }}
+          username: ${{ secrets.LIQUIBASE_DEV_USER }}
+          password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }} 
           headless: true
           licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
           logLevel: INFO
