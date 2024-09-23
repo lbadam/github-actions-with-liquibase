@@ -1,4 +1,4 @@
-name: Liquibase Generate Changelog with GitHub Actions Demo
+name: Liquibase Update and Snapshot with GitHub Actions Demo
 on: 
   workflow_dispatch
 jobs:
@@ -71,3 +71,11 @@ jobs:
           snapshotFormat: "JSON"      
           headless: true
           logLevel: INFO
+      - name: Create Pull Request for updated files
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: |
+            add liquibase snapshot file for ${{ secrets.LIQUIBASE_DEV_DB }}
+          title: Add Liquibase Snapshot
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: liquibase-snapshot-${{ env.RUN }}
