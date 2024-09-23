@@ -30,6 +30,11 @@ jobs:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
     steps:
+      - name: Make sure snapshot exists
+        if: hashFiles('**/snapshots_env.RUN') != ''
+        run: |
+          echo "Snapshot does not exist" >> $GITHUB_OUTPUT
+
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: Run Liquibase update-sql
