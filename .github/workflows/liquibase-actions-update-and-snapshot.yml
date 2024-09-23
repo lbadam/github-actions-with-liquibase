@@ -10,7 +10,6 @@ jobs:
       PREVIOUS_SNAPSHOT: ${{ github.run_number }} - 1
       VERSION: "1.0"
       LIQUIBASE_COMMAND_CHANGELOG_FILE: liquibase/changelogs/changelog.sql
-      LIQUIBASE_OUTPUT_FILE: liquibase/snapshots/snapshot_${{ github.run_number }}.json
     services:
       # Label used to access the service container
       postgres:
@@ -39,6 +38,7 @@ jobs:
 
       - name: Check out repository code
         uses: actions/checkout@v4
+
       - name: Generate snapshot if none exist
         if: ${{ steps.snapshot-exists.outputs.exists }} == "false"
         uses: liquibase-github-actions/snapshot@v4.29.2
@@ -46,9 +46,11 @@ jobs:
           url: ${{ secrets.LIQUIBASE_DEV_URL }}
           username: ${{ secrets.LIQUIBASE_DEV_USER }}
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
+          outputFile: liquibase/snapshots/snapshot_${{ env.PREVIOUS_SNAPSHOT }}.json
           snapshotFormat: "JSON"      
           headless: true
           logLevel: INFO
+
       - name: Create Pull Request for updated files
         if: ${{ steps.snapshot-exists.outputs.exists }} == "false"
         uses: peter-evans/create-pull-request@v7
@@ -69,6 +71,7 @@ jobs:
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }} 
           headless: true
           logLevel: INFO
+
       - name: Run Liquibase Tag
         id: liquibase-tag
         uses: liquibase-github-actions/tag@v4.29.2
@@ -79,7 +82,8 @@ jobs:
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}    
           headless: true
           logLevel: INFO
-      - name: Run Liquibase update
+
+      - name: Run Liquibase Update
         id: liquibase-update
         uses: liquibase-github-actions/update@v4.29.2
         with:
@@ -89,16 +93,19 @@ jobs:
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}      
           headless: true
           logLevel: INFO
-      - name: Run Liquibase update
+
+      - name: Run Liquibase Snapshot
         id: liquibase-snapshot
         uses: liquibase-github-actions/snapshot@v4.29.2
         with:
           url: ${{ secrets.LIQUIBASE_DEV_URL }}
           username: ${{ secrets.LIQUIBASE_DEV_USER }}
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
+          outputFile: liquibase/snapshots/snapshot_${{ github.run_number }}.json
           snapshotFormat: "JSON"      
           headless: true
           logLevel: INFO
+
       - name: Create Pull Request for updated files
         uses: peter-evans/create-pull-request@v7
         with:
