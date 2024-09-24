@@ -39,5 +39,6 @@ jobs:
           username: ${{ secrets.LIQUIBASE_DEV_USER }}
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
           licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
+          checksSettingsFile: liquibase/liquibase.checks-settings.conf
           headless: true
           logLevel: INFO
