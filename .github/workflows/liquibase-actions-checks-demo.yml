@@ -30,6 +30,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+
       - name: Run Liquibase Checks
         id: liquibase-status
         uses: liquibase-github-actions/checks-run@v4.29.2
@@ -40,5 +41,15 @@ jobs:
           password: ${{ secrets.LIQUIBASE_DEV_PASSWORD }}
           licenseKey: ${{ secrets.LIQUIBASE_LICENSE_KEY }}
           checksSettingsFile: liquibase/liquibase.checks-settings.conf
+          reportPath: "reports"
           headless: true
           logLevel: INFO
+  
+      - name: Create Pull Request for report
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: |
+            add liquibase checks run report file
+          title: Add Liquibase Checks Run Report
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: liquibase-reports-${{ env.RUN }}
