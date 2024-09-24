@@ -3,7 +3,7 @@ on:
   workflow_dispatch
 jobs:
   liquibase-actions:
-    name: Liquibase Actions
+    name: Liquibase Checks
     runs-on: ubuntu-latest
     env: 
         LB_TAG: ${{ github.run_number }}
@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: Run Liquibase Status
+      - name: Run Liquibase Checks
         id: liquibase-status
         uses: liquibase-github-actions/checks-run@v4.29.2
         with:
