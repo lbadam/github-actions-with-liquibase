@@ -2,7 +2,7 @@ name: Liquibase Checks with GitHub Actions Demo
 on: 
   workflow_dispatch
 jobs:
-  liquibase-actions:
+  liquibase-checks:
     name: Liquibase Checks
     runs-on: ubuntu-latest
     env: 
