@@ -1,0 +1,40 @@
+{
+  "diff": {
+    "diffFormat": 1,
+    "created": "Thu Sep 26 16:43:17 UTC 2024",
+    "databases": {
+      "reference": {
+        "majorVersion": "2",
+        "minorVersion": "2",
+        "name": "H2",
+        "url": "jdbc:h2:mem:liquibase_prod"
+      },
+      "target": {
+        "majorVersion": "2",
+        "minorVersion": "2",
+        "name": "H2",
+        "url": "jdbc:h2:mem:liquibase_dev"
+      }
+    },
+    "changedObjects": [
+      {
+        "changedObject": {
+          "name": "LIQUIBASE_DEV",
+          "type": "catalog",
+          "differences": [
+            {
+              "difference": {
+                "comparedValue": "LIQUIBASE_DEV",
+                "field": "name",
+                "message": "name changed from 'LIQUIBASE_PROD' to 'LIQUIBASE_DEV'",
+                "referenceValue": "LIQUIBASE_PROD"
+              }
+            }
+          ]
+          
+        }
+      }
+    ]
+    
+  }
+}
